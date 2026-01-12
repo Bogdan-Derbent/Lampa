@@ -1,33 +1,24 @@
 (function () {
 
-    function debug(text, color) {
-        let d = document.createElement('div');
-        d.style.position = 'fixed';
-        d.style.bottom = '20px';
-        d.style.left = '20px';
-        d.style.background = color || 'red';
-        d.style.color = 'white';
-        d.style.padding = '10px';
-        d.style.zIndex = 999999;
-        d.innerText = text;
-        document.body.appendChild(d);
-        setTimeout(() => d.remove(), 2000);
-    }
-
     function start() {
-        debug('PLUGIN STARTED', 'green');
 
         Lampa.Listener.follow('torrent', function (e) {
-            debug('TORRENT EVENT: ' + e.type, 'blue');
 
-            if (e.type !== 'contextmenu') return;
+            // ✅ ВАЖНО: в твоём источнике это onlong
+            if (e.type !== 'onlong') return;
 
-            debug('CONTEXTMENU DETECTED', 'purple');
+            let torrent = e.data;
+            if (!torrent || !torrent.url) return;
+
+            // не показываем для magnet
+            if (torrent.url.startsWith('magnet:')) return;
 
             e.items.push({
-                title: '⬇ DEBUG DOWNLOAD',
+                title: '⬇ Скачать .torrent',
+                icon: 'download',
                 onClick: function () {
-                    debug('CLICK', 'orange');
+                    Lampa.Noty.show('Скачивание .torrent');
+                    Lampa.Utils.downloadFile(torrent.url);
                 }
             });
         });
