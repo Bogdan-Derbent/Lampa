@@ -1,28 +1,33 @@
 (function () {
 
     function start() {
-        // 🔥 ГАРАНТИРОВАННО выполнится
-        Lampa.Noty.show('Плагин Lampa запущен');
 
-        let div = document.createElement('div');
-        div.style.position = 'fixed';
-        div.style.top = '200px';
-        div.style.left = '200px';
-        div.style.background = 'green';
-        div.style.color = 'white';
-        div.style.padding = '10px';
-        div.style.zIndex = 9999;
-        div.innerText = 'PLUGIN WORKS';
+        Lampa.Listener.follow('torrent', function (e) {
 
-        document.body.appendChild(div);
+            if (e.type !== 'contextmenu') return;
+
+            // e.data — это данные торрента
+            let torrent = e.data;
+
+            e.items.push({
+                title: '⬇ Скачать торрент',
+                icon: 'download',
+                onClick: function () {
+                    downloadTorrent(torrent);
+                }
+            });
+        });
+
     }
 
-    // 👉 ждём инициализацию Lampa
-    if (window.Lampa) {
-        start();
-    } else {
-        document.addEventListener('lampa-ready', start);
+    function downloadTorrent(torrent) {
+        Lampa.Noty.show('Скачивание торрента');
+
+        console.log(torrent);
+        // тут будет логика скачивания
     }
+
+    if (window.Lampa) start();
+    else document.addEventListener('lampa-ready', start);
 
 })();
-
