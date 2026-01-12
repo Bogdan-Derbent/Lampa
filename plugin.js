@@ -1,4 +1,3 @@
 (function () {
-    if (!window.Lampa) return;
-    console.log('Плагин Lampa загружен');
+    alert('LAMPA PLUGIN LOADED');
 })();
