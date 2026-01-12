@@ -1,7 +1,7 @@
 (function () {
 
     function start() {
-
+alert('MAGNET');
         Lampa.Listener.follow('torrent', function (e) {
 
             // мы уже знаем: используется onlong
@@ -28,3 +28,4 @@
     else document.addEventListener('lampa-ready', start);
 
 })();
+
