@@ -1,23 +1,47 @@
 (function () {
 
+    function drawDebug(text, color) {
+        let div = document.createElement('div');
+        div.style.position = 'fixed';
+        div.style.top = '50%';
+        div.style.left = '50%';
+        div.style.transform = 'translate(-50%, -50%)';
+        div.style.background = color || 'red';
+        div.style.color = 'white';
+        div.style.padding = '20px';
+        div.style.zIndex = 99999;
+        div.style.fontSize = '18px';
+        div.innerText = text;
+
+        document.body.appendChild(div);
+
+        setTimeout(() => div.remove(), 2000);
+    }
+
     function start() {
+
+        // ✅ проверка, что плагин жив
+        drawDebug('PLUGIN STARTED', 'green');
 
         Lampa.Listener.follow('torrent', function (e) {
 
-            // ⏱️ МЕНЮ ДОЛГОГО УДЕРЖАНИЯ
+            // 🔍 покажем, что вообще приходит
+            drawDebug(
+                'EVENT: ' + e.type,
+                e.type === 'contextmenu' ? 'blue' : 'gray'
+            );
+
+            // если это не меню — выходим
             if (e.type !== 'contextmenu') return;
 
-            let torrent = e.data;
+            // 🔥 если дошли сюда — ЭТО УЖЕ ПОБЕДА
+            drawDebug('CONTEXT MENU TORRENT', 'purple');
 
-            // только .torrent файлы
-            if (!torrent.url || torrent.url.startsWith('magnet:')) return;
-
+            // пробуем добавить пункт
             e.items.push({
-                title: '⬇ Скачать .torrent',
-                icon: 'download',
+                title: '⬇ DEBUG DOWNLOAD',
                 onClick: function () {
-                    Lampa.Noty.show('Скачивание .torrent');
-                    Lampa.Utils.downloadFile(torrent.url);
+                    drawDebug('CLICKED', 'orange');
                 }
             });
         });
