@@ -4,27 +4,23 @@
 
         Lampa.Listener.follow('torrent', function (e) {
 
-            // Нас интересует меню торрента
+            // ⏱️ МЕНЮ ДОЛГОГО УДЕРЖАНИЯ
             if (e.type !== 'contextmenu') return;
 
             let torrent = e.data;
 
-            // magnet нельзя "скачать как файл"
+            // только .torrent файлы
             if (!torrent.url || torrent.url.startsWith('magnet:')) return;
 
             e.items.push({
                 title: '⬇ Скачать .torrent',
                 icon: 'download',
                 onClick: function () {
-                    downloadTorrentFile(torrent.url);
+                    Lampa.Noty.show('Скачивание .torrent');
+                    Lampa.Utils.downloadFile(torrent.url);
                 }
             });
         });
-    }
-
-    function downloadTorrentFile(url) {
-        Lampa.Noty.show('Скачивание torrent-файла');
-        Lampa.Utils.downloadFile(url);
     }
 
     if (window.Lampa) start();
