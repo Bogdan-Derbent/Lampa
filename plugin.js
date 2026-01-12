@@ -1,3 +1,5 @@
 (function () {
-    alert('LAMPA PLUGIN LOADED');
+    if (!window.Lampa) return;
+
+    Lampa.Noty.show('Плагин загружен');
 })();
