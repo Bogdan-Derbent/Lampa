@@ -1,49 +1,34 @@
 (function () {
 
-    function drawDebug(text, color) {
-        let div = document.createElement('div');
-        div.style.position = 'fixed';
-        div.style.top = '50%';
-        div.style.left = '50%';
-        div.style.transform = 'translate(-50%, -50%)';
-        div.style.background = color || 'red';
-        div.style.color = 'white';
-        div.style.padding = '20px';
-        div.style.zIndex = 99999;
-        div.style.fontSize = '18px';
-        div.innerText = text;
-
-        document.body.appendChild(div);
-
-        setTimeout(() => div.remove(), 2000);
+    function debug(text, color) {
+        let d = document.createElement('div');
+        d.style.position = 'fixed';
+        d.style.top = '50%';
+        d.style.left = '50%';
+        d.style.transform = 'translate(-50%, -50%)';
+        d.style.background = color || 'red';
+        d.style.color = 'white';
+        d.style.padding = '20px';
+        d.style.zIndex = 999999;
+        d.style.fontSize = '18px';
+        d.innerText = text;
+        document.body.appendChild(d);
+        setTimeout(() => d.remove(), 1500);
     }
 
     function start() {
+        debug('PLUGIN OK', 'green');
 
-        // ✅ проверка, что плагин жив
-        drawDebug('PLUGIN STARTED', 'green');
+        let timer = null;
 
-        Lampa.Listener.follow('torrent', function (e) {
+        document.addEventListener('mousedown', function (e) {
+            timer = setTimeout(() => {
+                debug('LONG PRESS', 'blue');
+            }, 600);
+        });
 
-            // 🔍 покажем, что вообще приходит
-            drawDebug(
-                'EVENT: ' + e.type,
-                e.type === 'contextmenu' ? 'blue' : 'gray'
-            );
-
-            // если это не меню — выходим
-            if (e.type !== 'contextmenu') return;
-
-            // 🔥 если дошли сюда — ЭТО УЖЕ ПОБЕДА
-            drawDebug('CONTEXT MENU TORRENT', 'purple');
-
-            // пробуем добавить пункт
-            e.items.push({
-                title: '⬇ DEBUG DOWNLOAD',
-                onClick: function () {
-                    drawDebug('CLICKED', 'orange');
-                }
-            });
+        document.addEventListener('mouseup', function () {
+            clearTimeout(timer);
         });
     }
 
