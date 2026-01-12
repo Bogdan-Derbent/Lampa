@@ -1,5 +1,5 @@
 (function () {
-
+alert('DEBUG: plugin loaded');
     let overlay = null;
 
     function removeOverlay() {
@@ -76,3 +76,4 @@
     else document.addEventListener('lampa-ready', start);
 
 })();
+
