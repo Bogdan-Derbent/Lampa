@@ -6,8 +6,8 @@
 
         let div = document.createElement('div');
         div.style.position = 'fixed';
-        div.style.top = '20px';
-        div.style.left = '20px';
+        div.style.top = '200px';
+        div.style.left = '200px';
         div.style.background = 'green';
         div.style.color = 'white';
         div.style.padding = '10px';
@@ -25,3 +25,4 @@
     }
 
 })();
+
